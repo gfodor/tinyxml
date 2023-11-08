@@ -18,14 +18,15 @@ set( tinyxml_hdrs tinyxml.h tinystr.h )
 ################################
 # Add targets
 set(BUILD_STATIC_LIBS ON CACHE BOOL "Set to ON to build static libraries")
-if(BUILD_STATIC_LIBS)
+if(NOT EMSCRIPTEN AND BUILD_STATIC_LIBS)
 	add_library(tinyxmlstatic STATIC ${tinyxml_srcs} ${tinyxml_hdrs} )
 	set_target_properties(tinyxmlstatic PROPERTIES OUTPUT_NAME tinyxml)
+	set_target_properties( tinyxmlstatic PROPERTIES FOLDER ThirdParty/tinyxml )
 endif(BUILD_STATIC_LIBS)
 
 add_library( tinyxml SHARED ${tinyxml_srcs} ${tinyxml_hdrs} )
-set_target_properties( tinyxml tinyxmlstatic PROPERTIES FOLDER ThirdParty/tinyxml )
 
+set_target_properties( tinyxml PROPERTIES FOLDER ThirdParty/tinyxml )
 
 install( TARGETS tinyxml DESTINATION lib )
 install( FILES ${tinyxml_hdrs} DESTINATION include )
